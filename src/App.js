@@ -1,7 +1,10 @@
 import React from "react";
 import Person from "./components/persons/person";
 import Encounter from './components/Observations/Encounter';
+import NavbarComponent from './components/Navbar/NavbarComponent';
+import SearchComponent from './components/SearchComponent/SearchComponent';
 import logo from "./logo.svg";
+import * as patientServices from './services/patient';
 import "./App.css";
 
 class App extends React.Component {
@@ -25,27 +28,14 @@ class App extends React.Component {
   }
   handleSubmit(e) {
     e.preventDefault();
-    let uri = '/openmrs/ws/rest/v1/patient?q='+this.state.text;
-    let h = new Headers();
-    h.append("Accept", "application/json");
-    let encoded = window.btoa("superman:Admin123");
-    let auth = "Basic " + encoded;
-    h.append("Authorization", auth);
-    console.log(auth);
-    console.log(`Patient: ${this.state.text}`)
-
-    let req = new Request(uri, {
-      method: "GET",
-      headers: h,
-      credentials: "same-origin"
-    });
-    fetch(req)
-      .then((res) => res.json())
+     patientServices.SearchPatients(this.state.text)
       .then(
+       
         (result) => {
+          console.log(result)
           this.setState({
             isLoaded: true,
-            user: result.results,
+            user: result.data.results,
           });
         },
         (error) => {
@@ -73,6 +63,7 @@ class App extends React.Component {
     }
    
       return (
+        
         this.state.userpage && 
         <div>
           <form onSubmit={this.handleSubmit}>

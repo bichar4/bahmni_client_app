@@ -8,15 +8,4 @@ module.exports = function(app){
             secure:false 
      })
     );
-    // app.use(
-    //     proxy("/openmrs/ws/rest/v1/encounter",{
-    //         target:"https://192.168.33.10",
-    //         changeOrigin:true,
-    //         secure:true
-    //  })
-    // );
-
-
-
- 
 };
